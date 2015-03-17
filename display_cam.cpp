@@ -40,10 +40,10 @@ if(!cap.isOpened()) return -1;
 for(;;)
 {
 cap >> cam1;
-// cap>>cam2;
+cap>>cam2;
 int newSize[2];
 int currentSize[2];
-cam1.copyTo(cam2);
+//cam1.copyTo(cam2);
 cam1.copyTo(cam1_temp);
 //cout<<frame.rows<<" "<<frame.cols;
 ///////////1st try
