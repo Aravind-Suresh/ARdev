@@ -99,7 +99,7 @@ cam2_temp.copyTo(cam1.colRange(startCol,startCol+cam2_temp.cols).rowRange(sâ€Œâ€
 imshow("cam1_cam2",cam1);
 imshow("cam2",cam2_temp);
 */
-namedWindow("roi", WINDOW_FULLSCREEN);
+namedWindow("roi", WINDOW_AUTOSIZE);
 imshow("roi",cam1_temp);
 //imshow("cam2",cam2);
 
