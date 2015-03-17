@@ -29,7 +29,8 @@ for(int j=start.x;j<end.x;j++)
 int main(int argc, char** argv)
 {
 
-VideoCapture cap(0);
+VideoCapture cap1(0);
+VideoCapture cap2(0);
 Mat cam1,cam2,cam1_temp,cam2_temp;
 namedWindow("cam1_cam2", WINDOW_AUTOSIZE);
 namedWindow("cam2", WINDOW_AUTOSIZE);
@@ -39,8 +40,8 @@ if(!cap.isOpened()) return -1;
 
 for(;;)
 {
-cap >> cam1;
-cap>>cam2;
+cap1 >> cam1;
+cap2 >> cam2;
 int newSize[2];
 int currentSize[2];
 //cam1.copyTo(cam2);
