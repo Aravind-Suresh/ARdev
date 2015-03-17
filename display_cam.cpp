@@ -30,13 +30,13 @@ int main(int argc, char** argv)
 {
 
 VideoCapture cap1(0);
-VideoCapture cap2(0);
+VideoCapture cap2 = cap1;//cap2(0);
 Mat cam1,cam2,cam1_temp,cam2_temp;
-namedWindow("cam1_cam2", WINDOW_AUTOSIZE);
-namedWindow("cam2", WINDOW_AUTOSIZE);
+//namedWindow("cam1_cam2", CV_WINDOW_FULLSCREEN);
+//namedWindow("cam2", WINDOW_AUTOSIZE);
 
 
-if(!cap.isOpened()) return -1;
+if(!cap1.isOpened() || !cap2.isOpened()) return -1;
 
 for(;;)
 {
@@ -99,11 +99,9 @@ cam2_temp.copyTo(cam1.colRange(startCol,startCol+cam2_temp.cols).rowRange(sâ€Œâ€
 imshow("cam1_cam2",cam1);
 imshow("cam2",cam2_temp);
 */
-
+namedWindow("roi", WINDOW_FULLSCREEN);
 imshow("roi",cam1_temp);
-imshow("cam2",cam2);
-
-
+//imshow("cam2",cam2);
 
 if(waitKey(5)==27) break;
 
