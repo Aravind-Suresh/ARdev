@@ -1,10 +1,48 @@
 #include<opencv2/opencv.hpp>
 #include<iostream>
 #include<math.h>
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+//#include<fstream.h>
 
 using namespace cv;
 using namespace std;
 
+
+void getScreenSize(int & width,int & height)
+{
+char command[]="xrandr | grep '*'";
+ FILE *fpipe = (FILE*)popen(command,"r");
+ char line[256];
+ fgets( line, sizeof(line), fpipe);
+ /*while ( fgets( line, sizeof(line), fpipe))
+ {
+  cout<<line;
+ }*/
+ pclose(fpipe);
+ char w[10],h[10];
+ int i=0,l=0,k=0;
+for(;i<strlen(line);i++)
+
+	{			
+		if(line[i]=='x')
+			{i++;break;}
+		
+		w[k++]=line[i];		
+	}
+
+	
+for(;i<strlen(line);i++)
+	{			
+		if(line[i]==' ')break;
+		h[l++]=line[i];		
+	}	
+w[k]='\0';
+h[l]='\0';
+width=atoi(w);
+height=atoi(h);
+}
 void properAspectRatioResize(int size[2], int newSize[2], int width, int height) {
 	if(width == -1) {
 		newSize[0] = height;
@@ -44,6 +82,7 @@ cap1 >> cam1;
 cap2 >> cam2;
 int newSize[2];
 int currentSize[2];
+int screen_width,screen_height;
 //cam1.copyTo(cam2);
 cam1.copyTo(cam1_temp);
 //cout<<frame.rows<<" "<<frame.cols;
@@ -54,11 +93,13 @@ cam1.copyTo(cam1_temp);
 // fill the ROI with (0,255,0) (which is green in RGB space);
 // the original image will be modified
 
+getScreenSize(screen_width,screen_height);
+//cout<<screen_width<<" "<<screen_height;
 
 currentSize[0] = cam1.rows;
-currentSize[1] = cam1.cols;
+currentSize[1] = cam1.cols; 
 properAspectRatioResize(currentSize, newSize, 100, -1);
-
+resize(cam1, cam1_temp,Size(screen_width,screen_height),0,0,CV_INTER_AREA);
 //Mat roi(cam1, Rect(currentSize[1] - newSize[1], currentSize[0] - newSize[0], currentSize[1],currentSize[0]));
 //Mat roi(cam1, Rect(10, 10, 640, 480));
 //cout<<roi.rows<<" "<<roi.cols;
@@ -66,8 +107,8 @@ properAspectRatioResize(currentSize, newSize, 100, -1);
 //roi=Scalar(0,255,0);
 
 //resize(cam2, cam2,Size(newSize[0],newSize[1]),0,0,CV_INTER_AREA);
-resize(cam2, cam2,Size(),0.25,0.25,CV_INTER_AREA);
-disp_cam(cam1_temp,cam2,Point(cam1.cols-cam2.cols,cam1.rows-cam2.rows),Point(cam1.cols,cam1.rows));
+resize(cam2, cam2,Size(screen_width*0.25,screen_height*0.25),0,0,CV_INTER_AREA);
+disp_cam(cam1_temp,cam2,Point(cam1_temp.cols-cam2.cols,cam1_temp.rows-cam2.rows),Point(cam1_temp.cols,cam1_temp.rows));
 //cam2.copyTo(roi);
 
 /////////2nd try
@@ -101,7 +142,7 @@ imshow("cam2",cam2_temp);
 */
 namedWindow("roi", WINDOW_AUTOSIZE);
 imshow("roi",cam1_temp);
-//imshow("cam2",cam2);
+imshow("cam2",cam2);
 
 if(waitKey(5)==27) break;
 
