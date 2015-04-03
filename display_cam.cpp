@@ -143,9 +143,6 @@ imshow("cam2",cam2_temp);
 namedWindow("roi", WINDOW_AUTOSIZE);
 imshow("roi",cam1_temp);
 namedWindow("cam2",WINDOW_AUTOSIZE);
-moveWindow("cam2",0,0);
-setWindowProperty("cam2",CV_WINDOW_FULLSCREEN,CV_WINDOW_FULLSCREEN);;
-
 imshow("cam2",cam2);
 
 if(waitKey(5)==27) break;
